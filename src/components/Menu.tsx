@@ -34,18 +34,8 @@ export interface MenuProps {
   children: ReactNode
 }
 
-export const Menu = ({
-  radius = '125px',
-  centerRadius = '30px',
-  contentHeight = '2.5em',
-  centerX,
-  centerY,
-  className,
-  children,
-}: MenuProps) => {
-  const centered = Boolean(centerX || centerY)
-
-  const {slices, otherChildren} = flattenChildren(children).reduce(
+const partitionSliceChildren = (children: ReactNode) =>
+  flattenChildren(children).reduce(
     (acc, child) => {
       if ((child as any).type === Slice) {
         acc.slices.push(child)
@@ -61,6 +51,17 @@ export const Menu = ({
     },
   )
 
+export const Menu = ({
+  radius = '125px',
+  centerRadius = '30px',
+  contentHeight = '2.5em',
+  centerX,
+  centerY,
+  className,
+  children,
+}: MenuProps) => {
+  const centered = Boolean(centerX || centerY)
+  const {slices, otherChildren} = partitionSliceChildren(children)
   const {isObtuse, isPolar, ...splines} = reticulateMenuSplines(slices.length)
   const tokens = createTokens({
     radius,
