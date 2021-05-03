@@ -1,6 +1,6 @@
 import createCss from '@stitches/react'
 
-export const {global, theme, styled, css} = createCss({
+export const {global, theme, styled, css, keyframes} = createCss({
   theme: {
     borderWidths: {
       small: '1px',
