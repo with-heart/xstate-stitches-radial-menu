@@ -25,8 +25,8 @@ export default function App() {
   return (
     <Container>
       <Menu className={purpleTheme} radius="125px" centerRadius="60px">
-        {slices.map((slice) => (
-          <Slice>{slice}</Slice>
+        {slices.map((slice, i) => (
+          <Slice key={i}>{slice}</Slice>
         ))}
         <Center />
       </Menu>

@@ -1,16 +1,19 @@
 import {ReactNode} from 'react'
 import flattenChildren from 'react-keyed-flatten-children'
 import {ItemProvider} from '../context/ItemContext'
-import {useList} from '../context/MenuContext'
+import {useMenuContext} from '../context/MenuContext'
 import {styled} from '../styles'
 import {Item} from './Item'
 
 const StyledList = styled('ul', {
+  $$size: 'calc(2 * $radius)',
   position: 'relative',
   listStyle: 'none',
   padding: 0,
   margin: 0,
   borderRadius: '50%',
+  width: '$$size',
+  height: '$$size',
 })
 
 export interface ListProps {
@@ -18,15 +21,15 @@ export interface ListProps {
 }
 
 export const List = ({children}: ListProps) => {
-  const {size} = useList()
-
+  const {isObtuse} = useMenuContext()
   return (
-    <StyledList css={{width: size, height: size}}>
+    <StyledList>
       {flattenChildren(children).map((item, index) => {
-        console.log('type', (item as any).type)
         return (
-          <ItemProvider key={index} index={index}>
-            <Item>{item}</Item>
+          <ItemProvider key={index}>
+            <Item obtuse={isObtuse} css={{$index: index}}>
+              {item}
+            </Item>
           </ItemProvider>
         )
       })}

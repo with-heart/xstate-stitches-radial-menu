@@ -5,3 +5,7 @@ export interface MenuSplines {
   isPolar: boolean
   isObtuse: boolean
 }
+
+export type Tokenified<O> = {
+  [TokenKey in keyof O as `$${TokenKey}`]: O[TokenKey]
+}

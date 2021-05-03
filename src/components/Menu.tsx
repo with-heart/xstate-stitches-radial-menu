@@ -2,6 +2,7 @@ import {ReactChild, ReactNode} from 'react'
 import flattenChildren from 'react-keyed-flatten-children'
 import {MenuProvider} from '../context/MenuContext'
 import {styled} from '../styles'
+import {createTokens, reticulateMenuSplines} from '../utils'
 import {List} from './List'
 import {Slice} from './Slice'
 
@@ -16,6 +17,8 @@ const StyledMenu = styled('div', {
     centered: {
       true: {
         position: 'absolute',
+        top: 'calc($centerY - $radius)',
+        left: 'calc($centerX - $radius)',
       },
     },
   },
@@ -24,6 +27,7 @@ const StyledMenu = styled('div', {
 export interface MenuProps {
   radius?: string
   centerRadius?: string
+  contentHeight?: string
   centerX?: number
   centerY?: number
   className?: string
@@ -33,14 +37,13 @@ export interface MenuProps {
 export const Menu = ({
   radius = '125px',
   centerRadius = '30px',
+  contentHeight = '2.5em',
   centerX,
   centerY,
   className,
   children,
 }: MenuProps) => {
   const centered = Boolean(centerX || centerY)
-  const left = centerX && `calc(${centerX} - ${radius})`
-  const top = centerY && `calc(${centerY} - ${radius})`
 
   const {slices, otherChildren} = flattenChildren(children).reduce(
     (acc, child) => {
@@ -58,17 +61,19 @@ export const Menu = ({
     },
   )
 
+  const {isObtuse, isPolar, ...splines} = reticulateMenuSplines(slices.length)
+  const tokens = createTokens({
+    radius,
+    centerRadius,
+    centerX,
+    centerY,
+    contentHeight,
+    ...splines,
+  })
+
   return (
-    <MenuProvider
-      sliceCount={slices.length}
-      radius={radius}
-      centerRadius={centerRadius}
-    >
-      <StyledMenu
-        className={className}
-        centered={centered}
-        css={centered ? {left, top} : undefined}
-      >
+    <MenuProvider isObtuse={isObtuse} isPolar={isPolar}>
+      <StyledMenu className={className} centered={centered} css={tokens}>
         <List>{slices}</List>
         {otherChildren}
       </StyledMenu>

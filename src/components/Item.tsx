@@ -1,15 +1,17 @@
-import {ReactNode} from 'react'
-import {useItem} from '../context/ItemContext'
-import {useMenuContext} from '../context/MenuContext'
 import {styled} from '../styles'
 
-const StyledItem = styled('li', {
+export const Item = styled('li', {
+  $endAngle: 'calc($centralAngle * $index)',
+  $rotation: 'calc(($startAngle + $endAngle) * 1deg)',
   width: '50%',
   height: '50%',
   position: 'absolute',
   transformOrigin: 'bottom right',
   border: '$borderWidths$small solid $light',
   overflow: 'hidden',
+  transform: `
+    rotate($rotation)
+    skew(calc($skew * 1deg))`,
   variants: {
     obtuse: {
       true: {
@@ -21,19 +23,3 @@ const StyledItem = styled('li', {
     },
   },
 })
-
-export interface ItemProps {
-  children: ReactNode
-}
-
-export const Item = ({children}: ItemProps) => {
-  const {endAngle} = useItem()
-  const {isObtuse, startAngle, skew} = useMenuContext()
-  const transform = `rotate(${startAngle + endAngle}deg) skew(${skew}deg)`
-
-  return (
-    <StyledItem obtuse={isObtuse} css={{transform}}>
-      {children}
-    </StyledItem>
-  )
-}

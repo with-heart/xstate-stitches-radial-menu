@@ -1,22 +1,14 @@
 import {createContext, ReactNode, useContext} from 'react'
-import {MenuSplines} from '../types'
-import {reticulateMenuSplines} from '../utils'
 
 export interface MenuProviderProps {
-  sliceCount: number
-  radius: string
-  centerRadius: string
+  isObtuse: boolean
+  isPolar: boolean
   children: ReactNode
 }
 
-export interface MenuContextValue extends MenuSplines {
-  radius: string
-  centerRadius: string
-  centerX?: string
-  centerY?: string
-  list: {
-    size: string
-  }
+export interface MenuContextValue {
+  isObtuse: boolean
+  isPolar: boolean
 }
 
 export const MenuContext = createContext((null as unknown) as MenuContextValue)
@@ -33,23 +25,14 @@ export const useMenuContext = () => {
   return context
 }
 
-export const useList = () => useMenuContext().list
-
 export const MenuProvider = ({
-  sliceCount,
-  radius,
-  centerRadius,
+  isPolar,
+  isObtuse,
   children,
 }: MenuProviderProps) => {
-  const menuSplines = reticulateMenuSplines(sliceCount)
-
   const value: MenuContextValue = {
-    radius,
-    centerRadius,
-    list: {
-      size: `calc(2 * ${radius})`,
-    },
-    ...menuSplines,
+    isPolar,
+    isObtuse,
   }
   return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>
 }

@@ -1,4 +1,4 @@
-import {MenuSplines} from './types'
+import {MenuSplines, Tokenified} from './types'
 
 export const reticulateMenuSplines = (sliceCount: number): MenuSplines => {
   const centralAngle = 360 / sliceCount || 360
@@ -20,4 +20,15 @@ export const reticulateMenuSplines = (sliceCount: number): MenuSplines => {
     isPolar,
     isObtuse,
   }
+}
+
+export const createTokens = <T extends Object>(object: T) => {
+  const keys = Object.keys(object) as (keyof T)[]
+  const tokensObject = keys.reduce((acc, key) => {
+    const value = object[key]
+    const tokenKey = `$${key}`
+    acc[tokenKey] = value
+    return acc
+  }, {} as any)
+  return tokensObject as Tokenified<T>
 }

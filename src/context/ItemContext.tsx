@@ -1,22 +1,12 @@
 import {createContext, ReactNode, useContext} from 'react'
-import {useMenuContext} from './MenuContext'
 
 export interface ItemProviderProps {
-  index: number
   children: ReactNode
 }
 
 export interface ItemProviderValue {
   slice: {
-    transform: string
     highlight?: boolean
-  }
-  content: {
-    top: string
-    transform: string
-  }
-  item: {
-    endAngle: number
   }
 }
 
@@ -35,34 +25,10 @@ export const useItemContext = () => {
 }
 
 export const useSlice = () => useItemContext().slice
-export const useSliceContent = () => useItemContext().content
-export const useItem = () => useItemContext().item
 
-export const ItemProvider = ({index, children}: ItemProviderProps) => {
-  const {
-    radius,
-    centerRadius,
-    centralAngle,
-    skew,
-    isObtuse,
-    isPolar,
-  } = useMenuContext()
-  const endAngle = centralAngle * index
-  const contentHeight = '2.5em'
-
+export const ItemProvider = ({children}: ItemProviderProps) => {
   const value: ItemProviderValue = {
-    slice: {
-      transform: `skew(${-skew}deg) rotate(${
-        (isPolar ? 90 : centralAngle) / 2 - 90
-      }deg)`,
-    },
-    content: {
-      top: `calc((${
-        isObtuse ? '50%' : '0px'
-      } + ${radius} - ${centerRadius}) / 2 - ${contentHeight} / 2)`,
-      transform: `rotate(-${endAngle}deg)`,
-    },
-    item: {endAngle},
+    slice: {},
   }
 
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>

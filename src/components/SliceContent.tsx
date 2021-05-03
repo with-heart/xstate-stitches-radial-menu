@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import {useSliceContent} from '../context/ItemContext'
+import {useMenuContext} from '../context/MenuContext'
 import {styled} from '../styles'
 
 export interface ContentProps {
@@ -7,22 +7,35 @@ export interface ContentProps {
 }
 
 const Container = styled('div', {
+  $topStart: '0px',
+  $$top: `calc(
+    ($topStart + $radius - $centerRadius) / 2 - $contentHeight / 2
+  )`,
+  top: '$$top',
   position: 'absolute',
   width: '100%',
   textAlign: 'center',
+  variants: {
+    obtuse: {
+      true: {
+        $topStart: '50%',
+      },
+    },
+  },
 })
 
 const Content = styled('div', {
   display: 'inline-block',
   userSelect: 'none',
   fontSize: '2em',
+  transform: 'rotate(calc($endAngle * -1deg))',
 })
 
 export const SliceContent = ({children}: ContentProps) => {
-  const {top, transform} = useSliceContent()
+  const {isObtuse} = useMenuContext()
   return (
-    <Container css={{top}}>
-      <Content css={{transform}}>{children}</Content>
+    <Container obtuse={isObtuse}>
+      <Content>{children}</Content>
     </Container>
   )
 }
