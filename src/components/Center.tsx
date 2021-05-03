@@ -13,6 +13,9 @@ const StyledCenter = styled('div', {
   background: 'transparent',
   backgroundColor: '$background',
   border: '$borderWidths$large solid $dark',
+  display: 'grid',
+  gridTemplateRows: '1fr 1fr',
+  overflow: 'hidden',
 })
 
 export interface CenterProps {

@@ -6,6 +6,7 @@ export const purpleTheme = theme('purple-theme', {
     dark: 'mediumorchid',
     sliceHover: 'ghostwhite',
     highlight: 'lavender',
+    center_selected: 'rebeccapurple',
   },
 })
 
@@ -15,5 +16,6 @@ export const blueTheme = theme('blue-theme', {
     dark: 'lightskyblue',
     sliceHover: 'azure',
     highlight: 'lightcyan',
+    center_selected: 'dodgerblue',
   },
 })

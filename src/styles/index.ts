@@ -13,6 +13,8 @@ export const {global, theme, styled, css, keyframes} = createCss({
       background: 'white',
       sliceHover: '#e0f0f0',
       highlight: '#f7f6fa',
+      center_selected: 'silver',
+      center_hover: '$light',
     },
   },
 })
