@@ -1,4 +1,5 @@
-import {ReactChild, ReactNode} from 'react'
+import {motion} from 'framer-motion'
+import {ReactChild, ReactElement, ReactNode} from 'react'
 import flattenChildren from 'react-keyed-flatten-children'
 import {MenuProvider} from '../context/MenuContext'
 import {styled} from '../styles'
@@ -75,7 +76,13 @@ export const Menu = ({
   return (
     <MenuProvider isObtuse={isObtuse} isPolar={isPolar}>
       <StyledMenu className={className} centered={centered} css={tokens}>
-        <List>{slices}</List>
+        <motion.div
+          key={slices
+            .map((slice) => (slice as ReactElement).props.children)
+            .join(',')}
+        >
+          <List>{slices}</List>
+        </motion.div>
         {otherChildren}
       </StyledMenu>
     </MenuProvider>

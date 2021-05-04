@@ -20,7 +20,7 @@ const StyledList = styled('ul', {
   overflow: 'hidden',
   width: '$$size',
   height: '$$size',
-  animation: `${scaleIn} 250ms ease-in`,
+  animation: `${scaleIn} 250ms ease-out`,
 })
 
 export interface ListProps {
